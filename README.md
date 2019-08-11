@@ -3,7 +3,9 @@
 
 It is originaly programmed to detect a car in a closed space, but it can be used to detect any static object is a closed space
 
-[Donate](#donate) if you found it useful
+Consider donating if you found this useful
+
+[![Donate](images/donate.gif)](https://www.paypal.me/alvarogalisteo/1.00)
 
 ## Prerequisites
 
@@ -77,11 +79,3 @@ location /home {
 
 - [WiFiManager](https://github.com/tzapu/WiFiManager) by [@tzapu](https://github.com/tzapu)
 - [HC-SR04](https://github.com/Martinsos/arduino-lib-hc-sr04) by [@Martinsos](https://github.com/Martinsos)
-
-## Donate
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick" />
-<input type="hidden" name="hosted_button_id" value="W8K8LX68BB4K8" />
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-<img alt="" border="0" src="https://www.paypal.com/en_ES/i/scr/pixel.gif" width="1" height="1" />
-</form>
