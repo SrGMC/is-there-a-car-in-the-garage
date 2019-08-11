@@ -1,17 +1,85 @@
-# Is there a car in the garage?
-*Is there a car in the garage?* is a small Arduino webserver that uses an ultrasonic sensor to tell if there's a car or not in the garage. It's to be used in conjunction to a Apple Shorcut or the equivalent in Android
+#include <ESP8266WiFi.h>          //https://github.com/esp8266/Arduino
 
-## Prerequisites
+#include <DNSServer.h>
+#include <ESP8266WebServer.h>
+#include <WiFiManager.h>         //https://github.com/tzapu/WiFiManager
 
-This program is tested and used on a [Wemos D1 Mini](https://wiki.wemos.cc/products:d1:d1_mini) board. Even though other boards are not testes, this program should run without problems on boards with a ESP-8266EX chip.
+#include <HCSR04.h>              //https://github.com/Martinsos/arduino-lib-hc-sr04
 
-## Installation
+int TRIG = D1;
+int ECHO = D2;
+int LENGTH = 280;
 
-1. Download is-there-a-car-in-the-garage.ino and open the file in the Arduino IDE.
-2. Edit the line containing #DEFINE SECRET <secret> to insert your secret code. Only share this secret with trusted people.
-3. Press compile and verify, and wait for the program to load onto the board.
-4. Power the board up and connect to the wireless network called "garage-sensor". A captive portal should pop up. Use this to set your home's wireless credentials for the Arduino to connect.
-5. Download this
+// Change this
+const char* username = "arduino";
+const char* password = "arduino";
 
+/*
+ * Sensor polling settings
+ */
+// Current time
+unsigned long sensorCurrentTime = millis();
+// Timeout (30min)
+const long sensorTimeout = 30000;
 
-If this is the only server that you'll run open to the internet, open port 8080 to the Arduino Server IP on your router. If not, use a [reverse proxy]() in one of your servers 
+// Setup the Ultrasonic sensor and WebServer
+UltraSonicDistanceSensor distanceSensor(TRIG, ECHO);
+ESP8266WebServer server(80);
+
+// Stores if there's a car or not
+String isThereCar = "true";
+
+void setup() {
+    // Serial connection used for debugging
+    Serial.begin(115200);
+
+    /*
+     * WiFi management
+     */
+    WiFiManager wifiManager;
+    // Uncomment to reset config
+    //wifiManager.resetSettings();
+    
+    // Uncomment to set a static IP config. Can also be set in the captive portal under the
+    // Configure WiFI (No Scan) option
+    //wifiManager.setSTAStaticIPConfig(IPAddress(192,168,1,14), IPAddress(192,168,1,1), IPAddress(255,255,255,0));
+
+    // WiFi Manager will try to connect to the latest WiFi connection. Otherwise, an AP will be created
+    // to set up the wireless conncetion
+    wifiManager.autoConnect("garage-sensor");
+
+    Serial.printf("*WM: Succesfully Connected\n");
+
+    /*
+     * Server setup
+     */
+    server.on("/", []() {
+        if (!server.authenticate(username, password)) {
+            return server.requestAuthentication();
+        }
+        server.send(200, "text/plain", isThereCar);
+    });
+    server.onNotFound([]() {
+        server.send(404, "text/plain", "Error");
+    });
+    server.begin();
+    checkSensor();
+}
+
+void loop() {
+    server.handleClient();
+    checkSensor();
+}
+
+void checkSensor(){
+    if((millis() - sensorCurrentTime) >= sensorTimeout) {
+        double distance = distanceSensor.measureDistanceCm();
+        if(distance <= (LENGTH/2) && !isThereCar) {
+            isThereCar = "true";
+        } else if (distance > (LENGTH/2) && isThereCar) {
+            isThereCar = "false";
+        }
+        sensorCurrentTime = millis();
+        Serial.println(isThereCar);
+    }
+}
