@@ -14,20 +14,10 @@ int LENGTH = 280;
 const char* username = "arduino";
 const char* password = "arduino";
 
-/*
- * Sensor polling settings
- */
-// Current time
-unsigned long sensorCurrentTime = millis();
-// Timeout (30min)
-const long sensorTimeout = 30000;
 
 // Setup the Ultrasonic sensor and WebServer
 UltraSonicDistanceSensor distanceSensor(TRIG, ECHO);
 ESP8266WebServer server(80);
-
-// Stores if there's a car or not
-String isThereCar = "true";
 
 void setup() {
     // Serial connection used for debugging
@@ -57,7 +47,7 @@ void setup() {
         if (!server.authenticate(username, password)) {
             return server.requestAuthentication();
         }
-        server.send(200, "text/plain", isThereCar);
+        server.send(200, "text/plain", checkSensor());
     });
     server.onNotFound([]() {
         server.send(404, "text/plain", "Error");
@@ -68,18 +58,18 @@ void setup() {
 
 void loop() {
     server.handleClient();
-    checkSensor();
 }
 
-void checkSensor(){
-    if((millis() - sensorCurrentTime) >= sensorTimeout) {
-        double distance = distanceSensor.measureDistanceCm();
-        if(distance <= (LENGTH/2) && !isThereCar) {
-            isThereCar = "true";
-        } else if (distance > (LENGTH/2) && isThereCar) {
-            isThereCar = "false";
-        }
-        sensorCurrentTime = millis();
-        Serial.println(isThereCar);
+String checkSensor(){
+    double distance = distanceSensor.measureDistanceCm();
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println("mm.");
+    if(distance <= (LENGTH/2)) {
+        Serial.println("true");
+        return "true";
+    } else {
+        Serial.println("true");
+        return "false";
     }
 }
