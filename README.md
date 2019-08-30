@@ -1,9 +1,11 @@
 # Is there a car in the garage?
-*Is there a car in the garage?* is a small Arduino webserver that uses an ultrasonic sensor to tell if there's a car or not in the garage. It's to be used in conjunction to a Apple Shorcut or the equivalent in Android.
+*Is there a car in the garage?* is a small Arduino webserver that uses an ultrasonic sensor to tell if there's a car or not in the garage. It's to be used in conjunction with a Apple Shortcuts or the equivalent in Android.
 
-It is originaly programmed to detect a car in a closed space, but it can be used to detect any static object is a closed space
+It is originaly programmed to detect a car in a closed space, but it can be used to detect any static object in a closed space
 
-Consider donating if you found this useful
+### [Contact me](https://docs.google.com/forms/d/e/1FAIpQLSduzpEWICbtIJUc46gEXq6bVulhHPPN4JRuc_arat4juTa8eQ/viewform) if you want a kit with everything preinstalled, configured and tested.
+
+### Consider donating if you found this useful:
 
 [![Donate](images/donate.gif)](https://www.paypal.me/alvarogalisteo/1.00)
 
@@ -15,11 +17,20 @@ This program is tested and used on a [Wemos D1 Mini](https://wiki.wemos.cc/produ
 ### Server and sensor
 
 - Download [is-there-a-car-in-the-garage.ino](https://github.com/SrGMC/is-there-a-car-in-the-garage/raw/master/is-there-a-car-in-the-garage.ino) and open the file in the Arduino IDE.
-- Edit the values between `"` for both the username and password in the lines:
+- Edit the values between `"` for both the username and password in the following lines.  **You shouldn't use the default values as it can be a security issue**
 
 ```c
 const char* username = "arduino";
 const char* password = "arduino";
+```
+
+- Optional: Uncomment and edit the following line if you want to assign the server a fixed IP Address. This can be useful if you want to access the sensor from the outside world and have the same address everytime it reboots:
+  - `IPAddress(192,168,1,14)`: IP Address to assign. In this example, `192.168.1.14`
+  - `IPAddress(192,168,1,1)`: IP Address of the gateway (or router)
+  - `IPAddress(255,255,255,0)`: Subnet mask
+
+```c
+//wifiManager.setSTAStaticIPConfig(IPAddress(192,168,1,14), IPAddress(192,168,1,1), IPAddress(255,255,255,0));
 ```
 
 ![Arduino IDE](images/ide.png)
@@ -40,16 +51,6 @@ const char* password = "arduino";
 ![Captive portal](images/captive.png)
 
 - Your server should be fully functioning. If this is the only server that you'll run open to the internet, open port `80` to the Arduino Server IP on your router. If not, use a [reverse proxy](#reverse-proxy) in one of your servers.
-
-### iOS
-
-- Download this [Shortcut](https://www.icloud.com/shortcuts/2c882fd182f14ea6b3fa74673e178815) and fill in the server credentials, the server address and the phrases you want Siri to tell in every case you inserted on step. Then, you can rename the shortcut to whatever you want:
-  - On iOS 13, you need to ask Siri the name of the shortcut for it to be run.
-  - On iOS 12 or lower, you need to setup a Siri Shortcut by clicking on the three dots in the shortcut, and then the shortcut settings.
-
-### Android
-TODO
-
 
 ### Reverse proxy
 #### Nginx
@@ -74,6 +75,31 @@ location /home {
     add_header Pragma 'no-cache';
 }
 ```
+
+### iOS Shortcut
+
+- Download this [Shortcut](https://www.icloud.com/shortcuts/2c882fd182f14ea6b3fa74673e178815) and fill in all the setup answers.
+  - The default username and password is `arduino`. **You shouldn't use the default values as it can be a security issue**
+  - You can edit the shortcut and its values by pressing on `(...)`
+
+  ![Shortcut](images/shortcut.jpg)
+
+### Android action
+TODO
+
+## Usage
+### Web
+You can access the server through a web browser by navigating to the server's IP Address and introducing your credentials. The web page will show `true` (if there's a car) or `false` (if there isn't a car)
+
+![Login](images/login.png)
+![Result](images/result.png)
+
+### iOS
+On iOS 13, you need to ask Siri the name of the shortcut for it to be run. When the shortcut finishes, Siri will speak to you if there is or not a car. You can change what Siri says with the initial setup questions.
+
+On iOS up to iOS 12, you'll need to setup a Siri Shortcut through the shortcut settings. Then, when the shortcut finishes, Siri will speak to you if there is or not a car.
+
+Alternatively you can run the shortcut by pressing on it on the Shortcut app or Widget and Siri will tell you if there is or not a car.
 
 ## Acknowledgements
 
