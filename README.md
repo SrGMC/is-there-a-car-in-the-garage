@@ -13,8 +13,17 @@ It is originaly programmed to detect a car in a closed space, but it can be used
 
 This program is tested and used on a [Wemos D1 Mini](https://wiki.wemos.cc/products:d1:d1_mini) board. Even though other boards are not tested, this program should run without problems on boards with a ESP-8266EX chip.
 
+## What's new?
+
+- v1.1:
+  - master branch: Initial release
+  - whitelist-ip: Implemented an IP whitelist to bypass authentication for an specific IP
+- v1.0: Initial release
+
 ## Installation
 ### Server and sensor
+
+_If you want whitelist functionality, checkout the [whitelist-ip release](https://github.com/SrGMC/is-there-a-car-in-the-garage/tree/whitelist-ip)._
 
 - Download [is-there-a-car-in-the-garage.ino](https://github.com/SrGMC/is-there-a-car-in-the-garage/raw/master/is-there-a-car-in-the-garage.ino) and open the file in the Arduino IDE.
 - Edit the values between `"` for both the username and password in the following lines.  **You shouldn't use the default values as it can be a security issue**
@@ -24,10 +33,12 @@ const char* username = "arduino";
 const char* password = "arduino";
 ```
 
+- Edit `int source[4] = {192,168,1,2};` to whitelist an IP of your choice. Requests coming from this IP will bypass authentication. 
+    - This is useful when you want to access the sensor from outside your network but want an specific server from your network (i.e. Homebridge server/plugins) to allow retrieving status because it does not support authentication.
 - Optional: Uncomment and edit the following line if you want to assign the server a fixed IP Address. This can be useful if you want to access the sensor from the outside world and have the same address everytime it reboots:
-  - `IPAddress(192,168,1,14)`: IP Address to assign. In this example, `192.168.1.14`
-  - `IPAddress(192,168,1,1)`: IP Address of the gateway (or router)
-  - `IPAddress(255,255,255,0)`: Subnet mask
+    - `IPAddress(192,168,1,14)`: IP Address to assign. In this example, `192.168.1.14`
+    - `IPAddress(192,168,1,1)`: IP Address of the gateway (or router)
+    - `IPAddress(255,255,255,0)`: Subnet mask
 
 ```c
 //wifiManager.setSTAStaticIPConfig(IPAddress(192,168,1,14), IPAddress(192,168,1,1), IPAddress(255,255,255,0));
@@ -42,7 +53,7 @@ const char* password = "arduino";
 | ---------- | --------- |
 | Trig       | D1        |
 | Echo       | D2        |
-| Vcc        | 5v        |
+| Vcc        | 5V        |
 | Gnd        | G         |
 
 
