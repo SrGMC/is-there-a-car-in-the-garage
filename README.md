@@ -16,8 +16,8 @@ This program is tested and used on a [Wemos D1 Mini](https://wiki.wemos.cc/produ
 ## What's new?
 
 - v1.1:
-  - _master_ release: initial release
-  - _whitelist-ip_ release: implemented an IP whitelist to bypass authentication for an specific IP
+  - _master_ release: Initial release
+  - _whitelist-ip_ release: Implemented an IP whitelist to bypass authentication for an specific IP
 - v1.0: Initial release
 
 ## Installation
