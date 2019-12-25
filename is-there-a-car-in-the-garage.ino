@@ -10,10 +10,12 @@ int TRIG = D1;
 int ECHO = D2;
 int LENGTH = 280;
 
+// Change this to whitelist IP
+int source[4] = {192,168,1,2};
+
 // Change this
 const char* username = "arduino";
 const char* password = "arduino";
-
 
 // Setup the Ultrasonic sensor and WebServer
 UltraSonicDistanceSensor distanceSensor(TRIG, ECHO);
@@ -44,10 +46,18 @@ void setup() {
      * Server setup
      */
     server.on("/", []() {
-        if (!server.authenticate(username, password)) {
-            return server.requestAuthentication();
+        IPAddress remote = server.client().remoteIP();
+        Serial.printf("Request from %i.%i.%i.%i\n", remote[0], remote[1], remote[2], remote[3]);
+        if(remote[0] == source[0] && remote[1] == source[1] && 
+           remote[2] == source[2] && remote[3] == source[3]) {
+            return server.send(200, "text/plain", checkSensor());
+        } else {
+            if (!server.authenticate(username, password)) {
+                return server.requestAuthentication();
+            } else {
+                return server.send(200, "text/plain", checkSensor()); 
+            }
         }
-        server.send(200, "text/plain", checkSensor());
     });
     server.onNotFound([]() {
         server.send(404, "text/plain", "Error");
