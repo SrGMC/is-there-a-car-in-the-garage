@@ -14,8 +14,8 @@ int LENGTH = 280;
 int source[4] = {192,168,1,2};
 
 // Change this
-const char* username = "arduino";
-const char* password = "arduino";
+const char* username = "home";
+const char* password = "93bf2mpcddtu9kc3";
 
 // Setup the Ultrasonic sensor and WebServer
 UltraSonicDistanceSensor distanceSensor(TRIG, ECHO);
@@ -34,7 +34,7 @@ void setup() {
     
     // Uncomment to set a static IP config. Can also be set in the captive portal under the
     // Configure WiFI (No Scan) option
-    //wifiManager.setSTAStaticIPConfig(IPAddress(192,168,1,14), IPAddress(192,168,1,1), IPAddress(255,255,255,0));
+    wifiManager.setSTAStaticIPConfig(IPAddress(192,168,1,14), IPAddress(192,168,1,1), IPAddress(255,255,255,0));
 
     // WiFi Manager will try to connect to the latest WiFi connection. Otherwise, an AP will be created
     // to set up the wireless conncetion
