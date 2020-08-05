@@ -14,8 +14,8 @@ int LENGTH = 280;
 int source[4] = {192,168,1,2};
 
 // Change this
-const char* username = "home";
-const char* password = "93bf2mpcddtu9kc3";
+const char* username = "arduino";
+const char* password = "arduino";
 
 // Setup the Ultrasonic sensor and WebServer
 UltraSonicDistanceSensor distanceSensor(TRIG, ECHO);
