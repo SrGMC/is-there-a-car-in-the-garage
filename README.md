@@ -76,11 +76,11 @@ location /<Path> {
 }
 ```
 
-Change `<Path>` and `<IP Address>` accordingly. For example, accessing the server at `172.168.0.13` through the `/home` path:
+Change `<Path>` and `<IP Address>` accordingly. For example, accessing the server at `192.168.0.13` through the `/home` path:
 
 ```nginx
 location /home {
-    proxy_pass http://172.168.0.13/;
+    proxy_pass http://192.168.0.13/;
     add_header Cache-Control 'no-store, no-cache, must-revalidate, max-age=0';
     add_header Cache-Control 'post-check=0, pre-check=0';
     add_header Pragma 'no-cache';
@@ -89,7 +89,7 @@ location /home {
 
 ### iOS Shortcut
 
-- Download this [Shortcut](https://www.icloud.com/shortcuts/2c882fd182f14ea6b3fa74673e178815) and fill in all the setup answers.
+- Download this [Shortcut](https://www.icloud.com/shortcuts/19bcd04246704c28b0ec071b5c52406a) and fill in all the setup answers.
   - The default username and password is `arduino`. **You shouldn't use the default values as it can be a security issue**
   - You can edit the shortcut and its values by pressing on `(...)`
 
