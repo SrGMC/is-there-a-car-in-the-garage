@@ -3,11 +3,11 @@
 
 It is originaly programmed to detect a car in a closed space, but it can be used to detect any static object in a closed space
 
-### [Contact me](https://docs.google.com/forms/d/e/1FAIpQLSduzpEWICbtIJUc46gEXq6bVulhHPPN4JRuc_arat4juTa8eQ/viewform) if you want a kit with everything preinstalled, configured and tested.
+<!--### [Contact me](https://docs.google.com/forms/d/e/1FAIpQLSduzpEWICbtIJUc46gEXq6bVulhHPPN4JRuc_arat4juTa8eQ/viewform) if you want a kit with everything preinstalled, configured and tested.-->
 
-### Consider donating if you found this useful:
+<!--### Consider donating if you found this useful:->
 
-[![Donate](images/donate.gif)](https://www.paypal.me/alvarogalisteo/1.00)
+<!--[![Donate](images/donate.gif)](https://www.paypal.me/alvarogalisteo/1.00)-->
 
 ## Prerequisites
 
